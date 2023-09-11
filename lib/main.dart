@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:users_list/presentation/screens/home_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:users_list/core/constants/const.dart';
+import 'package:users_list/presentation/screens/home_screen/home_screen.dart';
+
+import 'application/provider/get_all_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,12 +14,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (context) => GetAllUsers(),
+          ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          useMaterial3: true,
+          primaryColor: tealcolor,
+          primarySwatch: tealcolor,
+          appBarTheme:const AppBarTheme(color: tealcolor)
+        ),
+        home: const HomeScreen(),
       ),
-      home: const HomeScreen(),
     );
   }
 }
