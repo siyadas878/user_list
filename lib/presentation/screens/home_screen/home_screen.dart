@@ -9,79 +9,88 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final userProvider = Provider.of<UserListProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Users List'),
+        centerTitle: true,
+        title: const Text('Users List',style: titlestyleWhite,),
       ),
       body: SafeArea(
-        child: Consumer<UserListProvider>(
-          builder: (context, provider, _) {
-            if (provider.userList.isEmpty) {
-              provider.getAllData();
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final screenWidth = constraints.maxWidth;
+            final isWideScreen = screenWidth >= 600;
 
-            return NotificationListener<ScrollNotification>(
-              onNotification: (ScrollNotification scrollInfo) {
-                if (scrollInfo is ScrollEndNotification &&
-                    scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent) {
-                  provider.loadMoreData();
+            return Consumer<UserListProvider>(
+              builder: (context, provider, _) {
+                if (provider.userList.isEmpty) {
+                  provider.getAllData();
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
-                return false;
-              },
-              child: ListView.builder(
-                itemCount: provider.userList.length,
-                itemBuilder: (context, index) {
-                  final userData = provider.userList[index];
 
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Card(
-                      child: Center(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DetailScreen(
-                                  id: userData.id.toString(),
+                return NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification scrollInfo) {
+                    if (scrollInfo is ScrollEndNotification &&
+                        scrollInfo.metrics.pixels >=
+                            scrollInfo.metrics.maxScrollExtent) {
+                      provider.loadMoreData();
+                    }
+                    return false;
+                  },
+                  child: ListView.builder(
+                    itemCount: provider.userList.length,
+                    itemBuilder: (context, index) {
+                      final userData = provider.userList[index];
+
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Card(
+                          child: Center(
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailScreen(
+                                      id: userData.id.toString(),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  radius: isWideScreen ? 40 : 30,
+                                  backgroundImage:
+                                      NetworkImage(userData.image!),
+                                ),
+                                title: Text(
+                                  '${userData.firstName!} ${userData.maidenName!} ${userData.lastName!}',
+                                  style: titlestyle,
+                                ),
+                                subtitle: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Age: ${userData.age!.toString()}',
+                                      style: subtitle,
+                                    ),
+                                    Text(
+                                      'Gender: ${userData.gender!}',
+                                      style: subtitle,
+                                    ),
+                                  ],
                                 ),
                               ),
-                            );
-                          },
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              radius: 40,
-                              backgroundImage: NetworkImage(userData.image!),
-                            ),
-                            title: Text(
-                              '${userData.firstName!} ${userData.maidenName!} ${userData.lastName!}',
-                              style: titlestyle,
-                            ),
-                            subtitle: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Age: ${userData.age!.toString()}',
-                                  style: subtitle,
-                                ),
-                                Text(
-                                  'Gender: ${userData.gender!}',
-                                  style: subtitle,
-                                ),
-                              ],
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+                      );
+                    },
+                  ),
+                );
+              },
             );
           },
         ),
