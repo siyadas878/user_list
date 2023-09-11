@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:users_list/application/provider/pagination_provider.dart';
 import 'package:users_list/core/constants/const.dart';
 import 'package:users_list/presentation/screens/home_screen/home_screen.dart';
 
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (context) => GetAllUsers(),
           ),
+          ChangeNotifierProvider(
+            create: (context) => UserListProvider(),
+          ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -29,7 +33,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: tealcolor,
           appBarTheme:const AppBarTheme(color: tealcolor)
         ),
-        home: const HomeScreen(),
+        home:  HomeScreen(),
       ),
     );
   }

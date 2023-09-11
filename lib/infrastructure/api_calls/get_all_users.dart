@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../domain/models/user_model.dart';
 
-Future<List<UserData>> fetchData() async {
+Future<List<UserData>> fetchData(int skip) async {
   try {
     final response = await http
-        .get(Uri.parse('https://dummyjson.com/users?limit=10&skip=0'));
+        .get(Uri.parse('https://dummyjson.com/users?limit=10&skip=$skip'));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = jsonDecode(response.body);

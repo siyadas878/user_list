@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:users_list/core/constants/const.dart';
 
 class CardWidget extends StatelessWidget {
   final String text;
@@ -14,7 +15,7 @@ class CardWidget extends StatelessWidget {
       width: size.width*0.7,
       height: size.height*0.08,
       child: Card(
-        child: Center(child: Text(text)),
+        child: Center(child: Text(text,style: titlestyle,)),
       ),
     );
   }

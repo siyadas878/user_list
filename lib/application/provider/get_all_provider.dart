@@ -8,8 +8,8 @@ class GetAllUsers extends ChangeNotifier {
 
     List<UserData>? datas;
 
-    Future<List<UserData>?> getalldata() async {
-    datas = await fetchData();
+    Future<List<UserData>?> getalldata(int skip) async {
+    datas = await fetchData(skip);
     notifyListeners();
     return datas;
   }
