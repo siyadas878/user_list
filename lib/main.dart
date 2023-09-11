@@ -7,6 +7,7 @@ import 'package:users_list/presentation/screens/home_screen/home_screen.dart';
 import 'application/provider/get_all_provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: tealcolor,
           appBarTheme:const AppBarTheme(color: tealcolor)
         ),
-        home:  HomeScreen(),
+        home: const HomeScreen(),
       ),
     );
   }
