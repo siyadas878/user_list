@@ -3,19 +3,30 @@ import 'package:users_list/core/constants/const.dart';
 
 class CardWidget extends StatelessWidget {
   final String text;
+
   const CardWidget({
-    super.key,
-    required this.text
-  });
+    Key? key,
+    required this.text,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    bool isLandscape = size.width > size.height; 
+
+    double cardWidth = isLandscape ? size.width * 0.5 : size.width * 0.7;
+    double cardHeight = isLandscape ? size.height * 0.12 : size.height * 0.08;
+
     return SizedBox(
-      width: size.width*0.7,
-      height: size.height*0.08,
+      width: cardWidth,
+      height: cardHeight,
       child: Card(
-        child: Center(child: Text(text,style: titlestyle,)),
+        child: Center(
+          child: Text(
+            text,
+            style: titlestyle,
+          ),
+        ),
       ),
     );
   }
